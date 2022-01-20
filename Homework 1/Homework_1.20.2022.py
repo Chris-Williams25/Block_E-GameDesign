@@ -10,7 +10,7 @@ print("3.561E+02")
 
 #part two
 
-print("Welcome to", end=" ")
+#print("Welcome to", end=" ")
 print("Greenhill School")
 #part three
 print('I\nLove\t"Greenhill\"')
