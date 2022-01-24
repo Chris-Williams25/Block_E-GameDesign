@@ -29,12 +29,23 @@ import os, random
 # #You need to have two = signs, otherwise the computer thinks the number has to be equal to the wording of the...
 # #variable
 
-myNumber=random.randint(1,10)
-userGuess=int(input("Guess a nymber from 1-10"))
-if myNumber ==userGuess:
-    print("You Guessed It!")
-else:
-    print("Better Luck Next Time!")
-#to say the number:
-print("The Number was "+ str(myNumber))
+# myNumber=random.randint(1,10)
+# userGuess=int(input("Guess a nymber from 1-10"))
+# if myNumber ==userGuess:
+#     print("You Guessed It!")
+# else:
+#     print("Better Luck Next Time!")
+# #to say the number:
+# print("The Number was "+ str(myNumber))
+
+GameOn=True
+MyNumber=random.randint(1,10)
+while(GameOn):
+    userGuess=int(input("Guess A Number from 1-10: "))
+    if MyNumber ==userGuess:
+        print("\nCongradulations! You got it!" )
+        GameOn=False
+    else:
+        print("\nNope! Good luck Next Time!")
+print("The Number to guess was "+ str(MyNumber))
 
