@@ -1,20 +1,3 @@
-import os
-import os, random
-os.system('cls')
-print(" ______________\n|Welcome to The|\n|  Game        |\n ==============")
-print("\nPick your gamemode\npress 1 for GM1\npress 2 for GM2\npress 3 for GM3")
-print("Number", end=": ")
-
-UserInfo=input()
-GM1=1 
-GM2=2
-GM3=3
-
-MyNumber1=random.randint(1,10) 
-MyNumber2=random.randint(1,50)
-MyNumber3=random.randint(1,100)
-
-
 #This is a failed system that I thought worked, But it turns out it doesn't.
 # if int(UserInfo) ==GM1:
 #     ThisGameMode2=False
@@ -55,6 +38,21 @@ MyNumber3=random.randint(1,100)
 #         print("\nNope! Good luck Next Time!")
 # print("The Number to guess was "+ str(MyNumber3))
 
+import os
+import os, random
+os.system('cls')
+print(" ______________\n|Welcome to The|\n|  Game        |\n ==============")
+print("\nPick your gamemode\npress 1 for GM1\npress 2 for GM2\npress 3 for GM3")
+print("Number", end=": ")
+
+UserInfo=input()
+GM1=1 
+GM2=2
+GM3=3
+
+MyNumber1=random.randint(1,10) 
+MyNumber2=random.randint(1,50)
+MyNumber3=random.randint(1,100)
 
 
 if int(UserInfo) ==GM1:
@@ -98,4 +96,3 @@ while(ThisGameMode3):
         print("The Number to guess was "+ str(MyNumber3))
     else:
         print("\nNope! Good luck Next Time!")
-#testing
