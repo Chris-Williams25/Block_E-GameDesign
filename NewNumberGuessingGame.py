@@ -1,9 +1,7 @@
 #Chris Williams
 #1/26/2022
-
-import os 
-os.system('cls') 
 import os, random
+os.system('cls')
 check=True
 def menu():
     print("     =-+-=-+-=-+-=-+-=-+-=-+-=")
@@ -16,7 +14,6 @@ def menu():
     print("Gamemode one is 10 numbers and five attempts")
     print("Gamemode two is 15 numbers and seven attempts")
     print("Gamemode three is 20 numbers and ten attempts") 
-
 RunGame=True
 while (RunGame):
     menu() #This is calling the function "Menu"
@@ -30,7 +27,6 @@ while (RunGame):
                 print("Sorry, Wrong Choice. Please enter 1-3") 
         except ValueError:
             print("Sorry, Wrong Choice. Please enter 1-3") 
-
     if choice ==1:
         MyNumber= random.randint(1, 10) 
         attempts=5
@@ -52,6 +48,7 @@ while (RunGame):
         if MyNumber == userGuess:
             print("You Guessed It!")
             GameOn=False
+            restart=input('Do you want to play again? (say yes)')
         else:
             print('Incorrect!')
             attempts=attempts-1
@@ -59,22 +56,18 @@ while (RunGame):
         if int(attempts) ==0:
             RunGame=False
             print("You've failed")
-            restart=input('Do you want to play again?')
+            restart=input('Do you want to play again? (say yes)')
             GameOn=False
     print("The Number to guess was "+str(MyNumber)) 
     if restart == 'yes':
         os.system('cls')
-        menu()
         RunGame=True
         check=True
     else:
-        print("What? yes? Okay whatever you say! Play again!")
-        menu()
-        RunGame=True
-        check=True
-    
-
-
+        print("ok then") 
+        RunGame=False
+        RunGame=False
+        check=False
 #I have to make it so if one were to want to play, if you say yes, It opens the menu.
 
 # if str.isnumeric(userGuess):
