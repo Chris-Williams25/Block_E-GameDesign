@@ -61,54 +61,66 @@ while(choosing):
         Game=True
     else:
         print("What? Say it again.") 
+        choosing=True
+        Game=False
+        Restaring=False
     while(Game):
         if user == 1 and computer == 1:
             print("ROCK!") 
+            print("Rock Vs. Rock") 
             print("What a coincidence, That's what I got.") 
             Game=False
             Restaring=True
         elif user == 1 and computer == 2:
             print("PAPER!")
+            print("Rock Vs. Paper") 
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 1 and computer == 3:
             print("SCISSORS!") 
+            print("Rock Vs. Scissors") 
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 2 and computer == 1:
             print("ROCK!") 
+            print("Paper Vs. Rock") 
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 2 and computer == 2:
             print("PAPER!")
+            print("Paper Vs. Paper") 
             print("What a coincidence, That's what I got.") 
             Game=False
             Restaring=True
         elif user == 2 and computer == 3:
             print("SCISSORS!") 
+            print("Paper Vs. Scissors")
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 1:
             print("ROCK!") 
+            print("Scissors Vs. Rock") 
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 2:
             print("PAPER!")
+            print("Scissors Vs. Paper")
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 3:
             print("SCISSORS!") 
+            print("Scissors Vs. Scissors")
             print("What a coincidence! That's what I got")
             Game=False
             Restaring=True
     while(Restaring): 
-        restart=input("Do you want to play agian? ")
+        restart=input("Do you want to play agian? I mean like yes or no. ")
         if restart == 'yes':
             os.system('cls')
             menu() 
@@ -126,8 +138,6 @@ while(choosing):
             choosing=False 
             Game=False
 #Testing
-
-
 
 
         
