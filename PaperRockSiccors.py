@@ -37,7 +37,8 @@ os.system('cls')
 def menu():
     print("********************************")
     print("*+====-=========+=======-=====+*")
-    print("*|    Wonderous Rochambeau    |*") 
+    print("*|    Wonderous Rochambeau    |*")
+    print("*| Say Your Play in Lower Case|*") 
     print("*+====-=========+=======-=====+*")
     print("********************************")
 choosing=True
@@ -62,44 +63,55 @@ while(choosing):
         print("What? Say it again.") 
     while(Game):
         if user == 1 and computer == 1:
+            print("ROCK!") 
             print("What a coincidence, That's what I got.") 
             Game=False
             Restaring=True
         elif user == 1 and computer == 2:
+            print("PAPER!")
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 1 and computer == 3:
+            print("SCISSORS!") 
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 2 and computer == 1:
+            print("ROCK!") 
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 2 and computer == 2:
+            print("PAPER!")
             print("What a coincidence, That's what I got.") 
             Game=False
             Restaring=True
         elif user == 2 and computer == 3:
+            print("SCISSORS!") 
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 1:
+            print("ROCK!") 
             print("You Lost! Try Again!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 2:
+            print("PAPER!")
             print("Good job! You Won!")
             Game=False
             Restaring=True
         elif user == 3 and computer == 3:
+            print("SCISSORS!") 
             print("What a coincidence! That's what I got")
             Game=False
             Restaring=True
     while(Restaring): 
-        restart=input("Do you want to play agian?")
+        restart=input("Do you want to play agian? ")
         if restart == 'yes':
+            os.system('cls')
+            menu() 
             choosing=True
             Game=False
             Restaring=False
