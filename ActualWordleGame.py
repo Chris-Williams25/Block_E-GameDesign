@@ -7,10 +7,16 @@ from modulefinder import IMPORT_NAME
 os.system('cls') 
 word=""
 guess=""
+User=""
+def what():
+    global User
+    User=input("Well, what do you want to play?") 
 def playagain():
     restart=input("Would you like to play again? yes or no?") 
     if restart == 'yes':
         os.system('cls') 
+        global LetterGuessed
+        LetterGuessed=""
         global GameOn
         GameOn=True
         global tries
@@ -34,7 +40,7 @@ def fruits():
     word=random.choice(fruits) 
 def computerparts():
     global word
-    computerparts=["monitor", "microchip", "cpu", "keyboard", "motherboard", "battery", "storage",]
+    computerparts=["monitor", "microchip", "cpu", "keyboard", "motherboard", "battery", "storage", "harddrive",]
     word=random.choice(computerparts) 
 def famousbuildings():
     global word
@@ -53,7 +59,8 @@ def menu():
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     FOR COMPUTER PARTS SAY 2 
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    FOR FAMOUS BUILDINGS SAY 3 """)
+    FOR FAMOUS BUILDINGS SAY 3 
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-""")
     User=input("Well, what do you want to play?") 
     if "1" in User:
         fruits()
@@ -70,6 +77,8 @@ def menu():
         # word=random.choice(famousbuildings) 
     else:
         print("What?")
+        print("Can you say that again?") 
+        what()
 
 def GuessFunction(): 
     global guess
