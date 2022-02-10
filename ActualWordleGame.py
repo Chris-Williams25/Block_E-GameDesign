@@ -1,8 +1,8 @@
 #Chris Williams
 #2/9/2022
 #My Wordle Game
-
 import os, random
+from pickle import HIGHEST_PROTOCOL
 from modulefinder import IMPORT_NAME
 os.system('cls') 
 word=""
@@ -10,9 +10,9 @@ guess=""
 User=""
 def what():
     global User
-    User=input("Well, what do you want to play?") 
+    User=input("Well, what do you want to play? ") 
 def playagain():
-    restart=input("Would you like to play again? yes or no?") 
+    restart=input("Would you like to play again? yes or no? ") 
     if restart == 'yes':
         os.system('cls') 
         global LetterGuessed
@@ -29,8 +29,9 @@ def playagain():
     elif restart == 'no':
         GameOn=False
         os.system('cls')
-        print("Wow! You got", score, "Points!")
-        print("GoodBye!!!")    
+        print("Wow! You got", score,"Points!")
+        print("GoodBye!!!") 
+        print(highscore) 
     else: 
         print("What? Say that again.") 
         playagain()
@@ -76,8 +77,8 @@ def menu():
         # famousbuildings=["tajmahal", "eiffeltower", "sydneyoperahouse", "romancolosseum", "towerofpisa", "whitehouse", "spaceneedle", "lourvemuseum"] 
         # word=random.choice(famousbuildings) 
     else:
-        print("What?")
-        print("Can you say that again?") 
+        print("What? ")
+        print("Can you say that again? ") 
         what()
 
 def GuessFunction(): 
@@ -94,10 +95,9 @@ def GuessFunction():
         except ValueError:
             print("What? give us another value?") 
             GuessFunction()
-
+score=0
 GameOn=True
 tries=0
-score=0
 LetterGuessed="" 
 menu()
 while GameOn:
@@ -105,13 +105,12 @@ while GameOn:
     LetterGuessed += guess #This is equal to letterguess plus guess(letterguessed=guess+letterguess) 
     if guess not in word:
         tries +=1
-        print(tries) #For testing
+        print("Your on Try", str(tries)+"!") #For testing
     CountLetter=0 
     for letter in word:
         if letter in LetterGuessed:
             print(letter, end=" ") 
-            CountLetter +=1 
-            score +=1
+            CountLetter +=1
         else:
             print("_", end=" ")
     if tries >6:
@@ -120,5 +119,9 @@ while GameOn:
         playagain() 
     if CountLetter == len(word):
         print("YAY!") 
+        score=len(word)*5-tries-2
+        highscore=0 
+        if score >highscore:
+            highscore=score
         GameOn=False
-        playagain() 
+        playagain()
