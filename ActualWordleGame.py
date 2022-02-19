@@ -31,7 +31,7 @@ def playagain():
         os.system('cls')
         print("Wow! You got", score,"Points!")
         print("GoodBye!!!") 
-        print(highscore) 
+        # print(highscore) 
     else: 
         print("What? Say that again.") 
         playagain()
@@ -62,7 +62,8 @@ def menu():
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     FOR FAMOUS BUILDINGS SAY 3 
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-""")
-    User=input("Well, what do you want to play?") 
+    print("you have",+score, "points!") 
+    User=input("Well, what do you want to play? and if you dont want to play just say no! ")
     if "1" in User:
         fruits()
             # global word
@@ -76,6 +77,11 @@ def menu():
         famousbuildings()
         # famousbuildings=["tajmahal", "eiffeltower", "sydneyoperahouse", "romancolosseum", "towerofpisa", "whitehouse", "spaceneedle", "lourvemuseum"] 
         # word=random.choice(famousbuildings) 
+    elif 'no' in User:
+        os.system('cls') 
+        print("Goodbye!")
+        global GameOn
+        GameOn=False
     else:
         print("What? ")
         print("Can you say that again? ") 
@@ -95,6 +101,7 @@ def GuessFunction():
         except ValueError:
             print("What? give us another value?") 
             GuessFunction()
+highscore=0
 score=0
 GameOn=True
 tries=0
@@ -116,12 +123,13 @@ while GameOn:
     if tries >6:
         print("\n Sorry, You've run out of chances") 
         GameOn=False
+        score=0
         playagain() 
     if CountLetter == len(word):
         print("YAY!") 
-        score=len(word)*5-tries-2
-        highscore=0 
+        score=len(word)*5-tries-2        
         if score >highscore:
-            highscore=score
+            score=highscore
+        score=int(score)+int(highscore)
         GameOn=False
         playagain()

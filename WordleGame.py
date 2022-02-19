@@ -88,5 +88,6 @@ while GameOn:
         GameOn=False
         playagain()
 
+
 #Now we need to calculate score.
 #and have a function for playing the game.
