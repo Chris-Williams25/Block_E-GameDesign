@@ -62,7 +62,6 @@ def splittingthedeck():
     halfDeck=int(len(deck)/2)
     plyr1=0
     plyr2=0
-
 # print("player1 ",player1)
 # print()
 # print("player2 ",player2)
