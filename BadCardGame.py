@@ -37,9 +37,9 @@ def TheDeck():
     counter=0
     for row in range(4):
         for col in range(13):
-            print(deck[counter], end=" ")
+            # print(deck[counter], end=" ")
             counter +=1
-        print()
+        # print()
 #now let's shuffle our deck!
 #Shuffle the deck cards
 def shuffling():
@@ -69,6 +69,7 @@ Gameon=True
 TheDeck()
 shuffling()
 splittingthedeck()
+print(halfDeck)
 while(Gameon):
     #ask user to hit a key to release cards
     for i in range (0,halfDeck):
@@ -76,23 +77,36 @@ while(Gameon):
         print("Player 1     Player 2")
         print("     "+player1[i]+"      "+player2[i])
         if player1[i]>player2[i]:
-            tempplyr1.extend(player1[i])
-            tempplyr1.extend(player2[i]) 
-            player1.pop(i)
-            player2.pop(i) 
-        elif player1[i]<player2[i]:
-            tempplyr2.extend(player1[i])
-            tempplyr2.extend(player2[i])  
-            player1.pop(i)
-            player2.pop(i)
-        # print("Player I: "+str(plyr1)+"     Player II: "+ str(plyr2))
-
-    if len(tempplyr2==0):
-        print("Player one won the game "+str(plyr1)+" to "+str(plyr2))
+            tempplyr1.append(player1[i])
+            tempplyr1.append(player2[i]) 
+            # player1.pop(i)
+            # player2.pop(i)
+        elif player1[i]<player2[i]: 
+            tempplyr2.append(player1[i])
+            tempplyr2.append(player2[i])  
+            # player1.pop(i)
+            # player2.pop(i)
+    print("Round ended") 
+        # print("Player I: "+str(plyr1)+"     Player II: "+ str(plyr2)
+    if (len(tempplyr1))==0:
         Gameon=False
-    elif len(tempplyr1==0):
-        print("Player two won the game "+str(plyr2)+" to "+str(plyr1))
+        print("Player two won the game ") #+str(plyr2)+" to "+str(plyr1))
+    elif (len(tempplyr2))==0:
         Gameon=False
+        print("Player one won the game ") #+str(plyr1)+" to "+str(plyr2))   
+    # else:
+    #     player1.extend(tempplyr1) 
+    #     player2.extend(tempplyr2)
     else:
+        for j in range(0,halfDeck):
+            player1.pop(0) 
+            player2.pop(0)
         player1.extend(tempplyr1) 
         player2.extend(tempplyr2)
+        tempplyr1.clear()
+        tempplyr2.clear()
+        if len(player1)<len(player2):
+            halfDeck=len(player1)
+        elif len(player2)<len(player1):
+            halfDeck=len(player2) 
+    
