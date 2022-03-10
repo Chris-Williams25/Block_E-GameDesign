@@ -73,7 +73,7 @@ print(halfDeck)
 while(Gameon):
     #ask user to hit a key to release cards
     for i in range (0,halfDeck):
-        click=input("Press a any key to get cards: ")
+        click=input("Press any key to get cards: ")
         print("Player 1     Player 2")
         print("     "+player1[i]+"      "+player2[i])
         if player1[i]>player2[i]:
@@ -86,7 +86,8 @@ while(Gameon):
             tempplyr2.append(player2[i])  
             # player1.pop(i)
             # player2.pop(i)
-    print("Round ended") 
+    print("player one has", len(tempplyr1), "cards in thier deck, player two has", len(tempplyr2), "cards in thier deck")
+    print("Round ended")
         # print("Player I: "+str(plyr1)+"     Player II: "+ str(plyr2)
     if (len(tempplyr1))==0:
         Gameon=False
@@ -94,19 +95,32 @@ while(Gameon):
     elif (len(tempplyr2))==0:
         Gameon=False
         print("Player one won the game ") #+str(plyr1)+" to "+str(plyr2))   
-    # else:
-    #     player1.extend(tempplyr1) 
-    #     player2.extend(tempplyr2)
     else:
+        if len(tempplyr1)<len(tempplyr2):
+            halfDeck=len(tempplyr2)
+        elif len(tempplyr2)<len(tempplyr1):
+            halfDeck=len(tempplyr1)  
+        otherone=player1[halfDeck: ]
+        othertwo=player2[halfDeck: ]
+        if len(player1)>len(player2):
+            tempplyr1.extend(otherone) 
+        elif len(player2)>len(player1):
+            tempplyr2.extend(othertwo) 
         for j in range(0,halfDeck):
-            player1.pop(0) 
             player2.pop(0)
+            player1.pop(0) 
         player1.extend(tempplyr1) 
         player2.extend(tempplyr2)
         tempplyr1.clear()
         tempplyr2.clear()
-        if len(player1)<len(player2):
-            halfDeck=len(player1)
-        elif len(player2)<len(player1):
-            halfDeck=len(player2) 
-    
+
+              # else:
+    #     if len(player1)>len(player2):
+    #         player1.slice(halfDeck) 
+
+
+    # else:
+    #     player1.extend(tempplyr1) 
+    #     player2.extend(tempplyr2)
+
+
