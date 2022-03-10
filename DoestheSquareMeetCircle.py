@@ -54,12 +54,29 @@ while check:
 #Finish circle
     if keys[pygame.K_LEFT] and xc >=rad:
         xc -= move #substract 5 from the x value
-    pygame.draw.rect(screen, sq_color, square)
-    pygame.draw.rect(screen, cr_color, square2)
+    if keys[pygame.K_RIGHT] and xc <=WIDTH-rad:
+        xc += move
+    if keys[pygame.K_UP] and yc>=rad:
+        yc -= move
+    if keys[pygame.K_DOWN] and yc<=HEIGHT-rad:
+        yc += move
 
+    # if keys[pygame.K_LEFT] and square2.x >=move:
+    #     square2.x -= move #substract 5 from the x value
+    # if keys[pygame.K_RIGHT] and square2.x <WIDTH-wbox:
+    #     square2.x += move
+    # if keys[pygame.K_UP] and square2.y >=move:
+    #     square2.y -= move
+    # if keys[pygame.K_DOWN] and square2.y <HEIGHT-hbox:
+    #     square.y += move
+    pygame.draw.rect(screen, sq_color, square)
+    # pygame.draw.rect(screen, cr_color, square2)
+    pygame.draw.circle(screen, cr_color, (xc,yc), rad)
     pygame.display.update()
     pygame.time.delay(10)
-# square.colliderect(square2) 
+
+
+# square.colliderect(square2)
 
 
     
