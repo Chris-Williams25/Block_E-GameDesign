@@ -1,40 +1,39 @@
-#I copied and pasted this, and then I added the parameters to keep the sqaure in the box frame thing
 #chris Williams
-#3/9/2022
-import os, random, time, pygame
-#initialize pygame
-pygame.init()
+#3/16/2022
 
-#Declare constants, variables, list, dictionaries, any object
-#scree size
+import os, random, time, pygame
+pygame.init()
 WIDTH=700
 HEIGHT=700
 check=True #for the while loop
 move=5 #pixels
-#square variables
-xs=20
-ys=20
+
+
+
+xs=random.randint(30,670)
+ys=670
 wbox=30
 hbox=30
 #circle variables
 rad=15
 xc=random.randint(rad, WIDTH-rad)
-yc=random.randint(rad, HEIGHT-rad)
-#creating the rect object
+yc=685
+
+
+thingtoendgame=pygame.Rect(0,0,700,40)
 square=pygame.Rect(xs,ys,wbox,hbox)
-square2=pygame.Rect(xc,yc,wbox,hbox)
-#create screen
+
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Circle eats Square')
 
-#define colors
+#these are the colors:
 colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],
 'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
 
-#Get colors
 background= colors.get('pink')
 sq_color=colors.get('navy')
 cr_color=colors.get('white')
+
 MAX=10
 jumpcount=MAX
 JUMP=False
@@ -49,12 +48,16 @@ while check:
         square.x -= move #substract 5 from the x value
     if keys[pygame.K_d] and square.x <WIDTH-(wbox+move):
         square.x += move
+    # if keys[pygame.K_s] and square.x >=move:
+    #     square.y += move #substract 5 from the x value
+    # if keys[pygame.K_w] and square.x <WIDTH-(hbox+move):
+    #     square.y -= move
     #here we jump
     if not JUMP:
-        if keys[pygame.K_w] and square.y >=move:
-            square.y -= move
-        if keys[pygame.K_s] and square.y <HEIGHT-(hbox+move):
-            square.y += move   
+        # if keys[pygame.K_w] and square.y >=move:
+        #     square.y -= move
+        # if keys[pygame.K_s] and square.y <HEIGHT-(hbox+move):
+        #     square.y += move   
         if keys[pygame.K_SPACE]:
             JUMP=True 
     else:
@@ -77,10 +80,16 @@ while check:
     checkCollide=square.collidepoint(xc,yc) 
     if checkCollide:
         xc=random.randint(wbox, WIDTH-wbox)
-        yc=random.randint(hbox, HEIGHT-hbox)
+        yc=700-rad-5
         rad+=move
         
+    checkEndgame=square.collidepoint(40,40)
+    checkEndgame=square.collidepoint(350,40)
+    checkEndgame=square.collidepoint(660,40)
 
+    if checkEndgame:
+        check=False
+        background=colors.get('navy') 
     # if keys[pygame.K_LEFT] and square2.x >=move:
     #     square2.x -= move #substract 5 from the x value
     # if keys[pygame.K_RIGHT] and square2.x <WIDTH-wbox:
@@ -90,13 +99,13 @@ while check:
     # if keys[pygame.K_DOWN] and square2.y <HEIGHT-hbox:
     #     square.y += move
     pygame.draw.rect(screen, sq_color, square)
+    
     # pygame.draw.rect(screen, cr_color, square2)
     pygame.draw.circle(screen, cr_color, (xc,yc), rad)
+    pygame.draw.rect(screen,'aqua',thingtoendgame)
+    pygame.draw.circle(screen, 'red', (40,40), 15)
+    pygame.draw.circle(screen, 'red', (350,40), 15)
+    pygame.draw.circle(screen, 'red', (640,40), 15)
+    
     pygame.display.update()
     pygame.time.delay(50)
-
-
-# square.colliderect(square2)
-
-
-    
