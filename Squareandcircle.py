@@ -16,9 +16,11 @@ wbox=30
 hbox=30
 #circle variables
 rad=15
-xc=random.randint(rad, WIDTH-rad)
-yc=685
-
+# xc=random.randint(rad, WIDTH-rad)
+# yc=685
+xc=350
+yc=350
+endingthing=False
 
 thingtoendgame=pygame.Rect(0,0,700,40)
 square=pygame.Rect(xs,ys,wbox,hbox)
@@ -54,10 +56,10 @@ while check:
     #     square.y -= move
     #here we jump
     if not JUMP:
-        # if keys[pygame.K_w] and square.y >=move:
-        #     square.y -= move
-        # if keys[pygame.K_s] and square.y <HEIGHT-(hbox+move):
-        #     square.y += move   
+        if keys[pygame.K_w] and square.y >=move:
+            square.y -= move
+        if keys[pygame.K_s] and square.y <HEIGHT-(hbox+move):
+            square.y += move   
         if keys[pygame.K_SPACE]:
             JUMP=True 
     else:
@@ -79,23 +81,37 @@ while check:
 
     checkCollide=square.collidepoint(xc,yc) 
     if checkCollide:
-        xc=random.randint(wbox, WIDTH-wbox)
-        yc=700-rad-5
+        # xc=random.randint(wbox, WIDTH-wbox)
+        # yc=700-rad-5
+        xc=350
+        yc=350
         rad+=move
+        xs=random.randint(30,670)
+        ys=670
+        square=pygame.Rect(xs,ys,wbox,hbox)
         
     checkEndgame=square.collidepoint(40,40)
-    checkEndgame=square.collidepoint(350,40)
-    checkEndgame=square.collidepoint(660,40)
+    checkEndgame2=square.collidepoint(350,40)
+    checkEndgame3=square.collidepoint(660,40)
 
     if checkEndgame:
-        check=False
-        background=colors.get('navy') 
+        background=colors.get('navy')
+        endingthing=True
+    if checkEndgame2:
+        background=colors.get('navy')
+        endingthing=True
+    if checkEndgame3:
+        background=colors.get('navy')
+        endingthing=True
+    # while(endingthing):
+    #     pygame.time.delay(50)
+    #     pygame.QUIT
     # if keys[pygame.K_LEFT] and square2.x >=move:
     #     square2.x -= move #substract 5 from the x value
     # if keys[pygame.K_RIGHT] and square2.x <WIDTH-wbox:
     #     square2.x += move
     # if keys[pygame.K_UP] and square2.y >=move:
-    #     square2.y -= move
+    #     square2.y -= moves
     # if keys[pygame.K_DOWN] and square2.y <HEIGHT-hbox:
     #     square.y += move
     pygame.draw.rect(screen, sq_color, square)
