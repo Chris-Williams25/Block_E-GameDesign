@@ -21,21 +21,34 @@ rad=15
 xc=350
 yc=350
 endingthing=False
-
+#these are the colors:
+colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],
+'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
 thingtoendgame=pygame.Rect(0,0,700,40)
 square=pygame.Rect(xs,ys,wbox,hbox)
+# randColors=random.choice(list(colors))
+background= colors.get('pink')
+# sq_color=colors.get('navy')
+#making a rand c f the square
+
 
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Circle eats Square')
 
-#these are the colors:
-colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],
-'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
+def changecolor():
+    global randColors
+    colorCheck=True
+    while(colorCheck): 
+        randColors=random.choice(list(colors))
+        if colors.get(randColors)==background:
+            randColors=random.choice(list(colors))
+        else:
+            colorCheck=False
 
-background= colors.get('pink')
-sq_color=colors.get('navy')
+
+changecolor()
+sq_color=colors.get(randColors)
 cr_color=colors.get('white')
-
 MAX=10
 jumpcount=MAX
 JUMP=False
@@ -60,7 +73,7 @@ while check:
             square.y -= move
         if keys[pygame.K_s] and square.y <HEIGHT-(hbox+move):
             square.y += move   
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE]: 
             JUMP=True 
     else:
         if jumpcount >=-MAX:
@@ -85,6 +98,8 @@ while check:
         # yc=700-rad-5
         xc=350
         yc=350
+        changecolor()
+        sq_color=colors.get(randColors) 
         rad+=move
         xs=random.randint(30,670)
         ys=670
@@ -125,3 +140,12 @@ while check:
     
     pygame.display.update()
     pygame.time.delay(50)
+
+    #menu
+    #instructions
+    #settings
+    #level one
+    #level two
+    #level three
+    #score board
+    #exit
