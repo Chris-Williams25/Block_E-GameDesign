@@ -1,7 +1,18 @@
+#Chris Williams
+#Mrs. Suarez
+#here is the main menu for the game
+
+WIDTH=700
+HEIGHT=700
+
+wb=30
+hb=30
+
+
 import pygame, os, time 
 pygame.init() 
-wind=pygame.display.set_mode((700,700))
-pygame.display.set_caption("testing") 
+wind=pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Cirle Eats Square") 
 #create different types of fonts
 colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153,255], 'orange':[255,85,0], 'dark.purple':[48,25,52], 'mag':[203, 195, 227], 'violet':[238,130,238], 'pink':[200,3,75]}
 check=True
@@ -15,9 +26,16 @@ while(check):
     TITLE_FNT=pygame.font.SysFont('arial', 80)
     MENU_FNT=pygame.font.SysFont('arial', 40) 
     INST_FNT=pygame.font.SysFont('arial', 25) 
+
+    
+    
+
     text=TITLE_FNT.render('Instructions', 1, (255,0,0))
     wind.fill((255,255,255))
-    wind.blit(text, (20,20-10)) 
+    # wind.blit(text, (20,20-10))
+
+    xt=WIDTH/2-text.get_width()/2
+    wind.blit(text, (xt,15))
     # text=INST_FNT.render("instructions", 1, (0,255,0)) 
     # wind.blit(text,(220,100)) 
 

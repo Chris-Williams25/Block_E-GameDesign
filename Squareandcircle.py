@@ -35,6 +35,7 @@ background= colors.get('pink')
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Circle eats Square')
 
+
 def changecolor():
     global randColors
     colorCheck=True
