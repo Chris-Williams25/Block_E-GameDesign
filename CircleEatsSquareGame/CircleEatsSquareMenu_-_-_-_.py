@@ -22,10 +22,12 @@
 # K_s                   down square
 # K_SPACE               jump
 #initialize pygame
-import os, random, time, pygame, math
+import os, random, time, pygame, math, datetime
 from pickle import TRUE
 #initialize pygame
+name=input('what is your name?  ') 
 pygame.init()
+
 returnSquare=pygame.Rect(20,660,30,30)
 #Declare constants, variables, list, dictionaries, any object
 #scree size
@@ -46,22 +48,8 @@ SettingList=['Screen Size','Font Size','C','BC']
 check=True #for the while loop
 move=5 #pixels
 #square variables
-xs=20
-ys=20
-wbox=30
-hbox=30
-#circle variables
-rad=15
-xc=random.randint(rad, WIDTH-rad)
-yc=random.randint(rad, HEIGHT-rad)
-
 #inscribed Square:
-ibox=int(rad*math.sqrt(2))
-startpoint = (int(xc-ibox/2),int(yc-ibox/2))
-print(startpoint[0]-ibox,startpoint[1])
-insSquare=pygame.Rect(startpoint[0],startpoint[1],ibox,ibox)
-#creating the rect object
-square=pygame.Rect(xs,ys,wbox,hbox)
+rad=15
 
 #create screen
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
@@ -80,7 +68,18 @@ sqM_color=colors.get('pink')
 TITLE_FNT=pygame.font.SysFont('comicsans', 80)
 MENU_FNT=pygame.font.SysFont('comicsans', 40)
 INST_FNT=pygame.font.SysFont('comicsans', 30)
-
+def keepscore():
+    score= 123
+    date=datetime.datetime.now()
+    print(date.strftime('%m/%d/%Y'))
+    scoreLine=str(score)+" "+name+" "+date.strftime('%m/%d/%Y'+'\n')
+    print(scoreLine)
+    #open a file and write in it
+    myFile=open('ClassStuff\sce.txt','w')
+    #if you have a specical text command thing such as \n or \t, you have to use \\ instead of just \ 
+    #also, if it is in the same folder, you doing have to include the first part (ClassStuff) becuase it just assumes it us.
+    myFile.write(scoreLine)
+    myFile.close()
 #Create Title
 def TitleMenu(Message):
     text=TITLE_FNT.render(Message, 1, (255,0,0))
@@ -167,6 +166,7 @@ def Instructions():
     text=MENU_FNT.render("CLICK HERE TO RETURN TO MENU", 1, (90,123,255))
     screen.blit(text,(10,600))
     pygame.draw.rect(screen,'red',returnSquare)
+    pygame.display.update()
     if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
         MAIN=True
         INST=False
@@ -204,11 +204,95 @@ def Settings():
         txty+=50
     pygame.display.update()
 
+def Game():
+    MAX=10
+    jumpCount=MAX
+    JUMP=False
+    run=True
+    rad=15
+    xc=random.randint(rad, WIDTH-rad)
+    yc=random.randint(rad, HEIGHT-rad)
+    move=5
+    ibox=int(rad*math.sqrt(2))
+    startpoint = (int(xc-ibox/2),int(yc-ibox/2))
+    print(startpoint[0]-ibox,startpoint[1])
+    insSquare=pygame.Rect(startpoint[0],startpoint[1],ibox,ibox)
+    #creating the rect object
+    xs=20
+    ys=20
+    wbox=30
+    hbox=30
+    square=pygame.Rect(xs,ys,wbox,hbox)
+    #circle variables
+    screen.fill('white')
+    cr_color=colors.get('aqua')
+    # sqM_color=colors.get('pink')
+    sq_color=colors.get(randColor)
+    while run:
+        for case in pygame.event.get():
+            if case.type==pygame.QUIT:
+                run=False  
+        keys=pygame.key.get_pressed() #this returns a list
+        
+        
+        if keys[pygame.K_a] and square.x >=move:
+            square.x -= move #substract 5 from the x value
+        if keys[pygame.K_d] and square.x <WIDTH-wbox:
+            square.x += move  
+        #Jumping part
+        if not JUMP:
+            if keys[pygame.K_w]:
+                square.y -= move
+            if keys[pygame.K_s]:
+                square.y += move   
+            if keys[pygame.K_SPACE]:
+                JUMP=True
+        else:
+            if jumpCount >=-MAX:
+                square.y -= jumpCount*abs(jumpCount)/2
+                jumpCount-=1
+            else:
+                jumpCount=MAX
+                JUMP=False#Finish circle
+        if keys[pygame.K_LEFT] and xc >=rad+move:
+            xc -= move #substract 5 from the x value
+            insSquare.x -= move
+        if keys[pygame.K_RIGHT] and xc <=WIDTH -(rad+move):
+            xc += move #substract 5 from the x value  
+            insSquare.x += move
+        if keys[pygame.K_DOWN] and yc <=HEIGHT-(rad+move):
+            yc += move #substract 5 from the x value
+            insSquare.y += move
+        if keys[pygame.K_UP] and yc >=rad+move:
+            yc -= move #substract 5 from the x value  
+            insSquare.y -= move
+        checkCollide = square.colliderect(insSquare)
+        if checkCollide:
+            square.x=random.randint(wbox, WIDTH-wbox)
+            square.y=random.randint(hbox, HEIGHT-hbox)   
+            changeColor()
+            sq_color=colors.get(randColor)
+            rad +=move
+            ibox=int(rad*math.sqrt(2))
+            startpoint = (int(xc-ibox/2),int(yc-ibox/2))
+        screen.fill(background) 
+        insSquare=pygame.Rect(startpoint[0],startpoint[1],ibox,ibox)
+        text=MENU_FNT.render("CLICK HERE TO RETURN TO MENU", 1, (90,123,255))
+        screen.blit(text,(10,600))
+        pygame.draw.rect(screen, sq_color, square)
+        pygame.draw.rect(screen,cr_color, insSquare )
+        pygame.draw.circle(screen, cr_color, (xc,yc), rad)
+        # pygame.draw.rect(screen,'red',returnSquare)
+        pygame.display.update()
+        pygame.time.delay(100)
+        # if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
+        #     MAIN=True
+        #     INST=False
+        # pygame.display.update()
+    
 
 
-MAX=10
-jumpCount=MAX
-JUMP=False
+
 while check:
     for case in pygame.event.get():
         if case.type==pygame.QUIT:
@@ -217,18 +301,24 @@ while check:
         screen.fill(background)
         TitleMenu("MENU")
         MainMenu(MenuList)
+    if INST:
+        Instructions()
+    if SETT:
+        Settings()
 
-    keys=pygame.key.get_pressed() #this returns a list
+    
     if case.type ==pygame.MOUSEBUTTONDOWN:
         mouse_pos=pygame.mouse.get_pos()
         print(mouse_pos)
-        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290))or INST :
+        if ((mouse_pos[0] >50 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <280))or INST :
             MAIN=False
+            SETT=False
+            INST=True
             # TitleMenu("INSTRUCTIONS")
             Instructions()
-            INST=True
         if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690)):
             INST=False
+            SETT=False
             MAIN=True
         if ((mouse_pos[0] >50 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT:
             MAIN=False
@@ -238,61 +328,66 @@ while check:
             MAIN=False
             SETT=False
             INST=False
-            GameOn=True
-        
-            
-while GameOn:
-    screen.fill(background)
-    pygame.draw.rect(screen, sq_color, square)
-    pygame.draw.rect(screen,cr_color, insSquare )
-    pygame.draw.circle(screen, cr_color, (xc,yc), rad)
-    if keys[pygame.K_a] and square.x >=move:
-        square.x -= move #substract 5 from the x value
-    if keys[pygame.K_d] and square.x <WIDTH-wbox:
-        square.x += move  
-    #Jumping part
-    if not JUMP:
-        if keys[pygame.K_w]:
-            square.y -= move
-        if keys[pygame.K_s]:
-            square.y += move   
-        if keys[pygame.K_SPACE]:
-            JUMP=True
-    else:
-        if jumpCount >=-MAX:
-            square.y -= jumpCount*abs(jumpCount)/2
-            jumpCount-=1
-        else:
-            jumpCount=MAX
-            JUMP=False
-
-#Finish circle
-    if keys[pygame.K_LEFT] and xc >=rad+move:
-        xc -= move #substract 5 from the x value
-        insSquare.x -= move
-    if keys[pygame.K_RIGHT] and xc <=WIDTH -(rad+move):
-        xc += move #substract 5 from the x value  
-        insSquare.x += move
-    if keys[pygame.K_DOWN] and yc <=HEIGHT-(rad+move):
-        yc += move #substract 5 from the x value
-        insSquare.y += move
-    if keys[pygame.K_UP] and yc >=rad+move:
-        yc -= move #substract 5 from the x value  
-        insSquare.y -= move
-        
-    checkCollide = square.colliderect(insSquare)
-    if checkCollide:
-        square.x=random.randint(wbox, WIDTH-wbox)
-        square.y=random.randint(hbox, HEIGHT-hbox)   
-        changeColor()
-        sq_color=colors.get(randColor)
-        rad +=move
-        ibox=int(rad*math.sqrt(2))
-        startpoint = (int(xc-ibox/2),int(yc-ibox/2))
-        insSquare=pygame.Rect(startpoint[0],startpoint[1],ibox,ibox)
-        
-    
+            Game()
+    pygame.display.update()
+    pygame.time.delay(10)
 
 
+
+# screen.fill('white')
+# pygame.draw.rect(screen, sq_color, square)
+# pygame.draw.rect(screen,cr_color, insSquare )
+# pygame.draw.circle(screen, cr_color, (xc,yc), rad)
+# if keys[pygame.K_a] and square.x >=move:
+#     square.x -= move #substract 5 from the x value
+# if keys[pygame.K_d] and square.x <WIDTH-wbox:
+#     square.x += move  
+# #Jumping part
+# if not JUMP:
+#     if keys[pygame.K_w]:
+#         square.y -= move
+#     if keys[pygame.K_s]:
+#         square.y += move   
+#     if keys[pygame.K_SPACE]:
+#         JUMP=True
+# else:
+#     if jumpCount >=-MAX:
+#         square.y -= jumpCount*abs(jumpCount)/2
+#         jumpCount-=1
+#     else:
+#         jumpCount=MAX
+#         JUMP=False#Finish circle
+# if keys[pygame.K_LEFT] and xc >=rad+move:
+#     xc -= move #substract 5 from the x value
+#     insSquare.x -= move
+# if keys[pygame.K_RIGHT] and xc <=WIDTH -(rad+move):
+#     xc += move #substract 5 from the x value  
+#     insSquare.x += move
+# if keys[pygame.K_DOWN] and yc <=HEIGHT-(rad+move):
+#     yc += move #substract 5 from the x value
+#     insSquare.y += move
+# if keys[pygame.K_UP] and yc >=rad+move:
+#     yc -= move #substract 5 from the x value  
+#     insSquare.y -= move
+# checkCollide = square.colliderect(insSquare)
+# if checkCollide:
+#     square.x=random.randint(wbox, WIDTH-wbox)
+#     square.y=random.randint(hbox, HEIGHT-hbox)   
+#     changeColor()
+#     sq_color=colors.get(randColor)
+#     rad +=move
+#     ibox=int(rad*math.sqrt(2))
+#     startpoint = (int(xc-ibox/2),int(yc-ibox/2))
+# insSquare=pygame.Rect(startpoint[0],startpoint[1],ibox,ibox)
+# text=MENU_FNT.render("CLICK HERE TO RETURN TO MENU", 1, (90,123,255))
+# screen.blit(text,(10,600))
+# pygame.draw.rect(screen,'red',returnSquare)
+# pygame.display.update()
+# if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
+#     MAIN=True
+#     INST=False
+# pygame.display.update()
+# pygame.time.delay(100)
+        
     pygame.display.update()
     pygame.time.delay(10)
