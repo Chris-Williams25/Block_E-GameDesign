@@ -1,0 +1,10 @@
+Maroon is 800000 in hex and 128,0,0 in decimal
+Royal Blue is 002366 in hex and 0,35,102 in decimal
+Blood Red is 660000 in hex and 102,0,0 in decimal (very similar to maroon)
+Light purple is CBC3E3 in hex and 203, 195, 227 in decimal
+Dark purple is 301934 in hex and 48,25,52 in decimal
+Yellow is FFFF00 in hex and 255,255,0 in decimal 
+Green is 008000 in hex and 0,255,0 in decimal 
+Black is 000000 in hex and 0,0,0 in decimal 
+White is FFFFFF in hex and 255,255,255 in decimal
+Violet is EE82EE in hex and 238,130,238 in decimal
