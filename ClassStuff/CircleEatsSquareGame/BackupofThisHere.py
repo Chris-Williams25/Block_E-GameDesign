@@ -48,8 +48,6 @@ pygame.init()
 returnSquare=pygame.Rect(20,660,30,30)
 WIDTH=700
 HEIGHT=700
-xm=0
-ym=0
 xMs=50
 yMs=250
 wb=30
@@ -88,22 +86,6 @@ INST_FNT=pygame.font.SysFont('comicsans', 30)
 #Create square fr menu
 
 squareM=pygame.Rect(xMs,yMs,wb,hb)
-
-def changeScreenSize(xm,ym):
-    global HEIGHT, WIDTH, screen
-    if ((xm >20 and xm <80) and (ym >250 and ym <290)):
-        HEIGHT=1000
-        WIDTH=1000
-
-    if ((xm >20 and xm <80) and (ym >300 and ym <330)):
-        HEIGHT=800
-        WIDTH=800
-        
-    if ((xm >20 and xm <80) and (ym >350 and ym <380)):
-        HEIGHT=600
-        WIDTH=600
-    screen=pygame.display.set_mode((WIDTH,HEIGHT))
- 
 #Create Title
 def TitleMenu(Message):
     text=TITLE_FNT.render(Message, 1, (255,0,0))
@@ -154,17 +136,17 @@ def colorspage():
     screen.fill((255,255,255))
     txty=243
     squareM.y=250
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >250 and ym <290)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290)):
         sq_color=colors.get('white')
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >300 and ym <330)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330)):
         sq_color=colors.get('red')
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >350 and ym <380)) :
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380)) :
         sq_color=colors.get('aqua')
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >400 and ym <430)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >400 and mouse_pos[1] <430)):
         sq_color=colors.get('orange')
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >450 and ym <480)) :
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >450 and mouse_pos[1] <480)) :
         sq_color=colors.get('purple')
-    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (ym >500 and ym <530)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >500 and mouse_pos[1] <530)):
         sq_color=colors.get('navy')
     for i in range(len(ColorsList)):
         message=ColorsList[i]
@@ -178,7 +160,7 @@ def colorspage():
     screen.blit(text,(10,600))
 
     pygame.draw.rect(screen,'red',returnSquare)
-    if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+    if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
         SETT=False
         LEV_I=False
         LEV_II=False
@@ -207,7 +189,7 @@ def Settings():
     text=MENU_FNT.render("CLICK HERE TO RETURN TO MENU", 1, (90,123,255))
     screen.blit(text,(10,600))
     pygame.draw.rect(screen,'red',returnSquare)
-    if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+    if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
         SETT=False
         LEV_I=False
         LEV_II=False
@@ -225,21 +207,21 @@ def Settings():
         squareM.y +=50
         txty+=50
     pygame.display.update()
-    if ((xm >20 and xm <80) and (ym >250 and ym <290)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290)):
         SETT=False
         MAIN=False
         colorspage()
-        if ((xm >20 and xm <80) and (ym >250 and ym <290)) :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290))or INST :
             sq_color=colors.get('white')
-        if ((xm >20 and xm <80) and (ym >300 and ym <330)):
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT :
             sq_color=colors.get('red')
-        if ((xm >20 and xm <80) and (ym >350 and ym <380)) :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380))or LEV_I :
             sq_color=colors.get('aqua')
-        if ((xm >20 and xm <80) and (ym >400 and ym <430)) :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >400 and mouse_pos[1] <430))or LEV_II :
             sq_color=colors.get('orange')
-        if ((xm >20 and xm <80) and (ym >450 and ym <480)) :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >450 and mouse_pos[1] <480))or LEV_III :
             sq_color=colors.get('purple')
-        if ((xm >20 and xm <80) and (ym >500 and ym <530)) :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >500 and mouse_pos[1] <530))or SCORE :
             sq_color=colors.get('navy')
 
 def instr():
@@ -290,7 +272,7 @@ def instr():
     screen.blit(text,(10,600))
     pygame.draw.rect(screen,'red',returnSquare)
     pygame.display.update()
-    # if ((xm\ >20 and xm\ <50) and (ym >660 and ym <690))or MAIN :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
     #     INST=False
     #     MAIN=True
 
@@ -702,25 +684,25 @@ def playGame3():
 #     LEV_II=False
 #     LEV_III=False
 #     SCORE=False
-#     if ((xm >20 and xm <80) and (ym >250 and ym <290))or INST :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290))or INST :
 #         MAIN=False
 #         INST=True
-#     if ((xm >20 and xm <80) and (ym >300 and ym <330))or SETT :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT :
 #         MAIN=False
 #         SETT=True  
-#     if ((xm >20 and xm <80) and (ym >350 and ym <380))or LEV_I :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380))or LEV_I :
 #         MAIN=False
 #         LEV_I=True  
-#     if ((xm >20 and xm <80) and (ym >400 and ym <430))or LEV_II :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >400 and mouse_pos[1] <430))or LEV_II :
 #         MAIN=False
 #         LEV_II=True  
-#     if ((xm >20 and xm <80) and (ym >450 and ym <480))or LEV_III :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >450 and mouse_pos[1] <480))or LEV_III :
 #         MAIN=False
 #         LEV_III=True  
-#     if ((xm >20 and xm <80) and (ym >500 and ym <530))or SCORE :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >500 and mouse_pos[1] <530))or SCORE :
 #         MAIN=False
 #         SCORE=True
-#     if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+#     if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
 #         SETT=False
 #         LEV_I=False
 #         LEV_II=False
@@ -742,7 +724,7 @@ while check:
             mouse_pos=pygame.mouse.get_pos()
         print(mouse_pos)
     keys=pygame.key.get_pressed() #this returns a list
-    if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+    if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
         SETT=False
         LEV_I=False
         LEV_II=False
@@ -754,26 +736,26 @@ while check:
         screen.fill(background)
         TitleMenu("MENU")
         MainMenu(MenuList)
-        if ((xm >20 and xm <80) and (ym >250 and ym <290))or INST :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290))or INST :
             MAIN=False
             INST=True
-        if ((xm >20 and xm <80) and (ym >300 and ym <330))or SETT :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT :
             MAIN=False
             SETT=True  
-        if ((xm >20 and xm <80) and (ym >350 and ym <380))or LEV_I :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380))or LEV_I :
             MAIN=False
             LEV_I=True  
-        if ((xm >20 and xm <80) and (ym >400 and ym <430))or LEV_II :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >400 and mouse_pos[1] <430))or LEV_II :
             MAIN=False
             LEV_II=True  
-        if ((xm >20 and xm <80) and (ym >450 and ym <480))or LEV_III :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >450 and mouse_pos[1] <480))or LEV_III :
             MAIN=False
             LEV_III=True  
-        if ((xm >20 and xm <80) and (ym >500 and ym <530))or SCORE :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >500 and mouse_pos[1] <530))or SCORE :
             MAIN=False
             SCORE=True
             keepScore(score)
-        if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
             SETT=False
             LEV_I=False
             LEV_II=False
@@ -784,7 +766,7 @@ while check:
         screen.fill(background)
         TitleMenu("INSTRUCTIONS")
         instr()
-        if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
             SETT=False
             LEV_I=False
             LEV_II=False
@@ -796,7 +778,7 @@ while check:
             INST=False
             MAIN=True
             first=True
-        if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
             SETT=False
             LEV_I=False
             LEV_II=False
@@ -807,7 +789,7 @@ while check:
         screen.fill(background)
         TitleMenu("SETTINGS")
         Settings()
-        if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+        if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
             SETT=False
             LEV_I=False
             LEV_II=False
@@ -822,7 +804,7 @@ while check:
     #         INST=False
     #         MAIN=True
     #         first=True
-    #     if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+    #     if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
     #         SETT=False
     #         LEV_I=False
     #         LEV_II=False
@@ -866,32 +848,32 @@ while check:
         if keys[pygame.K_ESCAPE]:
             SCORE=False
             MAIN=True
-    # if ((xm >20 and xm <80) and (ym >250 and ym <290))or INST :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <290))or INST :
     #     MAIN=False
     #     INST=True
-    # if ((xm >20 and xm <80) and (ym >300 and ym <330))or SETT :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT :
     #     MAIN=False
     #     SETT=True  
-    # if ((xm >20 and xm <80) and (ym >350 and ym <380))or LEV_I :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380))or LEV_I :
     #     MAIN=False
     #     LEV_I=True  
-    # if ((xm >20 and xm <80) and (ym >400 and ym <430))or LEV_II :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >400 and mouse_pos[1] <430))or LEV_II :
     #     MAIN=False
     #     LEV_II=True  
-    # if ((xm >20 and xm <80) and (ym >450 and ym <480))or LEV_III :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >450 and mouse_pos[1] <480))or LEV_III :
     #     MAIN=False
     #     LEV_III=True  
-    # if ((xm >20 and xm <80) and (ym >500 and ym <530))or SCORE :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >500 and mouse_pos[1] <530))or SCORE :
     #     MAIN=False
     #     SCORE=True
-    # if ((xm >20 and xm <50) and (ym >660 and ym <690))or MAIN :
+    # if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or MAIN :
     #     SETT=False
     #     LEV_I=False
     #     LEV_II=False
     #     LEV_III=False
     #     INST=False
     #     MAIN=True
-    if ((xm >20 and xm <80) and (ym >550 and ym <580)):
+    if ((mouse_pos[0] >20 and mouse_pos[0] <80) and (mouse_pos[1] >550 and mouse_pos[1] <580)):
         screen.fill(background)
         keepScore(score)
         text=INST_FNT.render("Make sure you update the score file", 1, BLACK)

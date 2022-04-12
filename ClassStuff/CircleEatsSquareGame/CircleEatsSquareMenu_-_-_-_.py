@@ -167,7 +167,7 @@ def Instructions():
     screen.blit(text,(10,600))
     pygame.draw.rect(screen,'red',returnSquare)
     pygame.display.update()
-    if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
+    if ((xm >20 and xm <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
         MAIN=True
         INST=False
 
@@ -189,7 +189,7 @@ def Settings():
     text=MENU_FNT.render("CLICK HERE TO RETURN TO MENU", 1, (90,123,255))
     screen.blit(text,(10,600))
     pygame.draw.rect(screen,'red',returnSquare)
-    if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690)):
+    if ((xm >20 and xm <50) and (mouse_pos[1] >660 and mouse_pos[1] <690)):
         MAIN=True
         INST=False
     # screen.blit(text, (20,20-10))
@@ -285,7 +285,7 @@ def Game():
         # pygame.draw.rect(screen,'red',returnSquare)
         pygame.display.update()
         pygame.time.delay(100)
-        # if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
+        # if ((xm >20 and xm <50) and (mouse_pos[1] >660 and mouse_pos[1] <690))or SETT :
         #     MAIN=True
         #     INST=False
         # pygame.display.update()
@@ -310,21 +310,21 @@ while check:
     if case.type ==pygame.MOUSEBUTTONDOWN:
         mouse_pos=pygame.mouse.get_pos()
         print(mouse_pos)
-        if ((mouse_pos[0] >50 and mouse_pos[0] <80) and (mouse_pos[1] >250 and mouse_pos[1] <280))or INST :
+        if ((xm >50 and xm <80) and (mouse_pos[1] >250 and mouse_pos[1] <280))or INST :
             MAIN=False
             SETT=False
             INST=True
             # TitleMenu("INSTRUCTIONS")
             Instructions()
-        if ((mouse_pos[0] >20 and mouse_pos[0] <50) and (mouse_pos[1] >660 and mouse_pos[1] <690)):
+        if ((xm >20 and xm <50) and (mouse_pos[1] >660 and mouse_pos[1] <690)):
             INST=False
             SETT=False
             MAIN=True
-        if ((mouse_pos[0] >50 and mouse_pos[0] <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT:
+        if ((xm >50 and xm <80) and (mouse_pos[1] >300 and mouse_pos[1] <330))or SETT:
             MAIN=False
             SETT=True
             Settings()
-        if ((mouse_pos[0] >50 and mouse_pos[0] <80) and (mouse_pos[1] >350 and mouse_pos[1] <380)):
+        if ((xm >50 and xm <80) and (mouse_pos[1] >350 and mouse_pos[1] <380)):
             MAIN=False
             SETT=False
             INST=False
