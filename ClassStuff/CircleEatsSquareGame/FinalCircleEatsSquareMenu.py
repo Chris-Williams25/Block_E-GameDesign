@@ -97,7 +97,7 @@ def instr():
     screen.blit(text,(20,190-10))  
     text=INST_FNT.render("A is Left", 1, (0,255,0)) 
     screen.blit(text,(20,220-10)) 
-    text=INST_FNT.render("D is Right", 1, (0,255,0))
+    text=INST_FNT.render("D is Right" , 1, (0,255,0))
     screen.blit(text,(20,250-10))
 
 

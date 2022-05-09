@@ -1,0 +1,21 @@
+you must have a complete menu
+finish settings
+finish score board
+finish score system (uploading files)
+
+Game:
+3 levels 
+-difficulty
+-scoring
+
+each level should be independent
+how is the game going otbe scored
+
+make each level seperately 
+
+Also, I need to document everything
+
+our final week is may 
+
+we are presenting on may 13/14 whenever class is.
+The due date for the final project is may 9th

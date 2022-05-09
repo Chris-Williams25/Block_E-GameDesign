@@ -27,8 +27,8 @@ ibox=rad*math.sqrt(2)
 xi= xc-ibox/2
 yi= yc-ibox/2
 inscSq=p.Rect(xi,yi, ibox,ibox)
-bg=p.image.load('ClassStuff\CircleEatsSquareGame\Images\\bg.jpg')
-man=p.image.load('ClassStuff\CircleEatsSquareGame\Images\Images\Pygame-Tutorials-master\Game\standing.png')
+bg=p.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\\157-1573121_telephone-lines-png-power-lines-silhouette.png')
+man=p.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\standing.png')
 
 manX=0
 manY=HEIGHT-64
@@ -80,7 +80,6 @@ while check:
         impact = True
     else:
         impact=False
-
     for case in p.event.get():
         if case.type == p.QUIT:
             check=False
@@ -97,9 +96,9 @@ while check:
         manSquare.x -= move
     if keys[p.K_d] and manX<WIDTH-wbox:
         # square.x += move
-        if not impact:
-            manX += move
-            manSquare.x += move
+        # if not impact:
+        manX += move
+        manSquare.x += move
     #JUMP CODE
     if not JUMP:
         if keys[p.K_s] and manY<380:

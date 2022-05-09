@@ -1,24 +1,19 @@
 import pygame
 pygame.init()
-
-win = pygame.display.set_mode((600,600))
+WIDTH=600
+HEIGHT=600
+win = pygame.display.set_mode((WIDTH,HEIGHT))
 
 pygame.display.set_caption("First Game")
 
 walkRight = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R1.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R2.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R3.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R4.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R5.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R6.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R7.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R8.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R9.png')]
 walkLeft = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L1.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L2.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L3.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L4.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L5.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L6.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L7.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L8.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L9.png')]
-bg = pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\\157-1573121_telephone-lines-png-power-lines-silhouette.png')
 char = pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\standing.png')
-
+colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
 clock = pygame.time.Clock()
+bg=pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\DungeonBackground.png')
+BackGround =pygame.transform.scale(bg, (600,600))
 
-# bulletSound = pygame.mixer.Sound('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\\bullet.mp3')
-# hitSound = pygame.mixer.Sound('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\hit.mp3')
-
-# music = pygame.mixer.music.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\music.mp3')
-# pygame.mixer.music.play(-1)
-
-score = 0
 
 class player(object):
     def __init__(self,x,y,width,height):
@@ -57,7 +52,7 @@ class player(object):
     def hit(self):
         self.isJump = False
         self.jumpCount = 10
-        self.x = 100
+        self.x = 20
         self.y = 410
         self.walkCount = 0
         font1 = pygame.font.SysFont('comicsans', 100)
@@ -85,7 +80,10 @@ class projectile(object):
         self.vel = 8 * facing
 
     def draw(self,win):
-        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+            fireball = pygame.image.load('FINAL_GAMe\Pictures for Final Game\\fireball-png-photos.png')
+            FireBowl =pygame.transform.scale(fireball, (35,35))
+            win.blit(FireBowl,(self.x,self.y-10))
+
 
 
 class enemy(object):
@@ -102,7 +100,7 @@ class enemy(object):
         self.walkCount = 0
         self.vel = 3
         self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-        self.health = 10
+        self.health = 2
         self.visible = True
 
     def draw(self,win):
@@ -118,8 +116,8 @@ class enemy(object):
                 win.blit(self.walkLeft[self.walkCount //3], (self.x, self.y))
                 self.walkCount += 1
 
-            pygame.draw.rect(win, (255,0,0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
-            pygame.draw.rect(win, (0,128,0), (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
+            # pygame.draw.rect(win, (255,0,0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
+            # pygame.draw.rect(win, (0,128,0), (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
             self.hitbox = (self.x + 17, self.y + 2, 31, 57)
             #pygame.draw.rect(win, (255,0,0), self.hitbox,2)
 
@@ -141,20 +139,28 @@ class enemy(object):
         if self.health > 0:
             self.health -= 1
         else:
-            self.visible = False
+            goblins.pop(goblins.index(goblin))
+            # self.visible = False
+            # self.x = WIDTH+10
+            # self.y = 410
+            # self.visible= True
+            # self.health= 2
+            pygame.display.update()
+            # i = 0
+                # while i < 75:
+            #     pygame.time.delay(10)
+            #     i += 1
         print('hit')
 
         
 
 def redrawGameWindow():
-    win.blit(bg, (0,0))
-    text = font.render('Score: ' + str(score), 1, (0,0,0))
-    win.blit(text, (350, 10))
+    win.blit(BackGround, (0,0))
     man.draw(win)
-    goblin.draw(win)
+    for goblin in goblins:
+        goblin.draw(win) 
     for bullet in bullets:
         bullet.draw(win)
-    
     pygame.display.update()
 
 
@@ -162,21 +168,40 @@ def redrawGameWindow():
 font = pygame.font.SysFont('comicsans', 30, True)
 man = player(200, 410, 64,64)
 goblin = enemy(100, 410, 64, 64, 450)
+goblin2= enemy(100, 410, 64, 64, 450)
+goblin3 = enemy(100, 410, 64, 64, 450)
+goblin3= enemy(100, 410, 64, 64, 450)
+goblin4 = enemy(100, 410, 64, 64, 450)
+goblin5 = enemy(100, 410, 64, 64, 450)
+
+goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
 shootLoop = 0
+goblinLoop = 0 
+goblins =[]
 bullets = []
+check=True
+
+pointsforgoblin=False
 run = True
 while run:
     clock.tick(27)
 
-    if goblin.visible == True:
+    for goblin in goblins:
         if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
             if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
                 man.hit()
-                score -= 5
 
+    #creating the Goblin
+    if goblinLoop > 0:
+        goblinLoop += 1
+    if goblinLoop > 30:
+        goblinLoop = 0
+
+
+    #creating the gun
     if shootLoop > 0:
         shootLoop += 1
-    if shootLoop > 3:
+    if shootLoop > 30:
         shootLoop = 0
     
     for event in pygame.event.get():
@@ -188,18 +213,21 @@ while run:
             if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
                 # hitSound.play()
                 goblin.hit()
-                score += 1
                 bullets.pop(bullets.index(bullet))
                 
-        if bullet.x < 500 and bullet.x > 0:
+        if bullet.x < 600 and bullet.x > -30:
             bullet.x += bullet.vel
         else:
             bullets.pop(bullets.index(bullet))
 
     keys = pygame.key.get_pressed()
 
+    if keys[pygame.K_g] and goblinLoop == 0:
+        if len(goblins) < 5:
+            goblins.append(enemy(goblin.x, goblin.y, goblin.width, goblin.height, goblin.end))
+        goblinLoop = 1
+
     if keys[pygame.K_SPACE] and shootLoop == 0:
-        # bulletSound.play()
         if man.left:
             facing = -1
         else:
@@ -209,6 +237,7 @@ while run:
             bullets.append(projectile(round(man.x + man.width //2), round(man.y + man.height//2), 6, (0,0,0), facing))
 
         shootLoop = 1
+
 
     if keys[pygame.K_LEFT] and man.x > man.vel:
         man.x -= man.vel
@@ -240,9 +269,14 @@ while run:
         else:
             man.isJump = False
             man.jumpCount = 10
+
+    #winning portion of game
+
+    # if goblin.x < 150:
+    #     pointsforgoblin=True
+    # while pointsforgoblin:
+    #     print('goblin winning') 
             
     redrawGameWindow()
 
 pygame.quit()
-
-
