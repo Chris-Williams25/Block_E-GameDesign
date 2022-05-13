@@ -10,8 +10,9 @@ score=0
 WIDTH=600
 HEIGHT=600
 
+
 Score=0
-xMs=50
+xMs=50 
 yMs=250
 wb=30
 hb=30
@@ -23,11 +24,14 @@ LEV_II=False
 LEV_III=False
 SCORE=False
 #List f messages
+
 MenuList=['Instructions','Settings', "Level I","Level II",'Level III','Scoreboard','Exit']
 SettingList=['Screen Size','Backgrnd Color','Icon','']
 sizeList=['1000 x 1000','800 x 800','600 x 600']
 check=True #for the while loop
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
+
+goblinspawn=random.randint(1,50)
 
 #___________________________________________________________________________________________________________________________________
 
@@ -40,7 +44,7 @@ char = pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\
 colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
 clock = pygame.time.Clock()
 bg=pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\DungeonBackground.png')
-
+BackGround =pygame.transform.scale(bg, (WIDTH,HEIGHT))  
 
 
 
@@ -86,7 +90,7 @@ class player(object):
         self.y = 410
         self.walkCount = 0
         font1 = pygame.font.SysFont('comicsans', 100)
-        text = font1.render('-5', 1, (255,0,0))
+        text = font1.render('OW!!', 1, (255,0,0))
         screen.blit(text, (250 - (text.get_width()/2),200))
         pygame.display.update()
         i = 0
@@ -115,6 +119,141 @@ class projectile(object):
             screen.blit(FireBowl,(self.x,self.y-10))
 
 
+#This is the lvl 2 goblin
+
+class enemylvltwo(object):
+    walkRight = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R1E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R2E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R3E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R4E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R5E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R6E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R7E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R8E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R9E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R10E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R11E.png')]
+    walkLeft = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L1E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L2E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L3E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L4E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L5E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L6E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L7E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L8E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L9E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L10E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L11E.png')]
+
+    def __init__(self, x, y, width, height, end):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.end = end
+        self.path = [self.x, self.end]
+        self.walkCount = 0
+        self.vel = 30
+        self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+        self.health = 4
+        self.visible = True
+
+    def draw(self,screen):
+        self.move()
+        if self.visible:
+            if self.walkCount + 1 >= 33:
+                self.walkCount = 0
+
+            if self.vel > 0:
+                screen.blit(self.walkRight[self.walkCount //3], (self.x, self.y))
+                self.walkCount += 1
+            else:
+                screen.blit(self.walkLeft[self.walkCount //3], (self.x, self.y))
+                self.walkCount += 1
+
+            # pygame.draw.rect(screen, (255,0,0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
+            # pygame.draw.rect(screen, (0,128,0), (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
+            self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+            #pygame.draw.rect(screen, (255,0,0), self.hitbox,2)
+
+    def move(self):
+        if self.vel > 0:
+            if self.x + self.vel < self.path[1]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1
+                self.walkCount = 0
+        else:
+            if self.x - self.vel > self.path[0]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1
+                self.walkCount = 0
+
+    def hit(self):
+        if self.health > 0:
+            self.health -= 1
+        else:
+            goblins.pop(goblins.index(goblin))
+            # self.visible = False
+            # self.x = WIDTH+10
+            # self.y = 410
+            # self.visible= True
+            # self.health= 2
+            pygame.display.update()
+            # i = 0
+                # while i < 75:
+            #     pygame.time.delay(10)
+            #     i += 1
+        print('hit')
+
+
+class enemylvlthree(object):
+    walkRight = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R1E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R2E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R3E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R4E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R5E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R6E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R7E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R8E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R9E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R10E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R11E.png')]
+    walkLeft = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L1E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L2E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L3E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L4E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L5E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L6E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L7E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L8E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L9E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L10E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\L11E.png')]
+
+    def __init__(self, x, y, width, height, end):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.end = end
+        self.path = [self.x, self.end]
+        self.walkCount = 0
+        self.vel = 10
+        self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+        self.health = 6
+        self.visible = True
+
+    def draw(self,screen):
+        self.move()
+        if self.visible:
+            if self.walkCount + 1 >= 33:
+                self.walkCount = 0
+
+            if self.vel > 0:
+                screen.blit(self.walkRight[self.walkCount //3], (self.x, self.y))
+                self.walkCount += 1
+            else:
+                screen.blit(self.walkLeft[self.walkCount //3], (self.x, self.y))
+                self.walkCount += 1
+
+            # pygame.draw.rect(screen, (255,0,0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
+            # pygame.draw.rect(screen, (0,128,0), (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
+            self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+            #pygame.draw.rect(screen, (255,0,0), self.hitbox,2)
+
+    def move(self):
+        if self.vel > 0:
+            if self.x + self.vel < self.path[1]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1
+                self.walkCount = 0
+        else:
+            if self.x - self.vel > self.path[0]:
+                self.x += self.vel
+            else:
+                self.vel = self.vel * -1
+                self.walkCount = 0
+
+    def hit(self):
+        if self.health > 0:
+            self.health -= 1
+        else:
+            goblins.pop(goblins.index(goblin))
+            print("Death")
+            # self.visible = False
+            # self.x = WIDTH+10
+            # self.y = 410
+            # self.visible= True
+            # self.health= 2
+            pygame.display.update()
+            # i = 0
+                # while i < 75:
+            #     pygame.time.delay(10)
+            #     i += 1
+        print('hit')
 
 class enemy(object):
     walkRight = [pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R1E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R2E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R3E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R4E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R5E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R6E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R7E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R8E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R9E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R10E.png'), pygame.image.load('ClassStuff\Images\Images\Pygame-Tutorials-master\Game\R11E.png')]
@@ -182,22 +321,19 @@ class enemy(object):
             #     i += 1
         print('hit')
 
-        
-
-
 
 
 #mainloop
-font = pygame.font.SysFont('comicsans', 30, True)
-man = player(200, 410, 64,64)
-goblin = enemy(100, 410, 64, 64, 450)
-goblin2= enemy(100, 410, 64, 64, 450)
-goblin3 = enemy(100, 410, 64, 64, 450)
-goblin3= enemy(100, 410, 64, 64, 450)
-goblin4 = enemy(100, 410, 64, 64, 450)
-goblin5 = enemy(100, 410, 64, 64, 450)
+# font = pygame.font.SysFont('comicsans', 30, True)
+# man = player(200, 410, 64,64)
+# goblin = enemy(100, 410, 64, 64, 450)
+# goblin2= enemy(100, 410, 64, 64, 450)
+# goblin3 = enemy(100, 410, 64, 64, 450)
+# goblin3= enemy(100, 410, 64, 64, 450)
+# goblin4 = enemy(100, 410, 64, 64, 450)
+# goblin5 = enemy(100, 410, 64, 64, 450)
 
-goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
+# goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
 shootLoop = 0
 goblinLoop = 0 
 goblins =[]
@@ -206,7 +342,7 @@ bullets = []
 #create screen
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Circle eats Square')
-squarecolors=('red','aqua',)
+squarecolors=('red','aqua','white')
 #define colors
 colors={'white':[255,255,255], 'red':[255,0,0], 'aqua':[102,153, 255],
 'orange':[255,85,0],'purple':[48,25,52],'navy':[5,31,64],'pink':[200,3,75]}
@@ -277,14 +413,14 @@ def instr():
     screen.blit(text,(20,190-10))  
     text=INST_FNT.render("Space is Shooting Fireballs", 1, (0,255,0)) 
     screen.blit(text,(20,220-10)) 
-    text=INST_FNT.render("Press G to spawn goblins" , 1, (0,255,0))
+    text=INST_FNT.render("They Spawn Naturally (the goblins I mean)" , 1, (0,255,0))
     screen.blit(text,(20,250-10))
 
 
-    # text=MENU_FNT.render("Square Controls:", 1, (0,255,0))
-    # screen.blit(text,(20,260))
-    # text=INST_FNT.render("UP ARROW is Up", 1, (0,255,0))
-    # screen.blit(text,(20,260+30+10))
+    text=MENU_FNT.render("Oh Yeah! Up Arrow is jump", 1, (0,255,0))
+    screen.blit(text,(20,260))
+    text=INST_FNT.render("I forgot to tell you that", 1, (0,255,0))
+    screen.blit(text,(20,260+30+10))
     # text=INST_FNT.render("DOWN ARROW is Down", 1, (0,255,0))
     # screen.blit(text,(20,260+60+10))
     # text=INST_FNT.render("LEFT ARROW is Left", 1, (0,255,0))
@@ -320,11 +456,11 @@ def keepScore(score):
     scoreLine=str(score)+"\t"+name+"\t"+date.strftime('%m/%d/%Y'+'\n')
     #open a file and write in it 
     # when y write it erases the prev 
-    myFile=open('ClassStuff\CircleEatsSquareGame\sce.txt','a') 
+    myFile=open('FINAL_GAMe\sce.txt','a') 
     myFile.write(scoreLine)
     myFile.close()
 def scoreBoard():
-    myFile=open('ClassStuff\CircleEatsSquareGame\sce.txt', 'r')
+    myFile=open('FINAL_GAMe\sce.txt', 'r')
     yi=150
     stuff= myFile.readlines()
     myFile.close()
@@ -344,22 +480,26 @@ def scoreBoard():
             pygame.display.update()
             pygame.time.delay(50)
 
-def ChangeSquareColor(xm,ym):
+def ChangeSquareColor():
+    global background
     global colors
     global sq_color
-    if ((xm >20 and xm <80) and (ym >250 and ym <290)):
-        sq_color=colors.get('red')
-    if ((xm >20 and xm <80) and (ym >300 and ym <330)):
-        sq_color=colors.get('aqua') 
-    if ((xm >20 and xm <80) and (ym >350 and ym <380)):
-        sq_color=colors.get('purple')
+    if ((xm >80 and xm <140) and (ym >250 and ym <290)):
+        background=colors.get('red')
+        print('clciked')
+    if ((xm >140 and xm <200) and (ym >300 and ym <330)):
+        background=colors.get('aqua') 
+        print('ouhoh')
+    if ((xm >40 and xm <140) and (ym >350 and ym <380)):
+        background=colors.get('white')
+        print('aldsfie)')
 def keepScore(score):
     date=datetime.datetime.now()
     print(date.strftime('%m/%d/%Y'))
     scoreLine='\n'+str(score)+"\t"+name+"\t"+date.strftime('%m/%d/%Y'+'\n')
  
  
-    myFile=open('ClassStuff\CircleEatsSquareGame\sce.txt','a') 
+    myFile=open('FINAL_GAMe\sce.txt','a') 
     myFile.write(scoreLine)
     myFile.close()
 def changeScreenSize(xm,ym):
@@ -385,7 +525,7 @@ def changeScreenSize(xm,ym):
 
 def redrawGamescreendow():
     global BackGround
-    screen.blit(bg, (0,0))
+    screen.blit(BackGround, (0,0))
     man.draw(screen)
     for goblin in goblins:
         goblin.draw(screen) 
@@ -393,118 +533,7 @@ def redrawGamescreendow():
         bullet.draw(screen)
     pygame.display.update()
 
-def playGame():
-    global BackGround
-    BackGround =pygame.transform.scale(bg, (WIDTH,HEIGHT))
-    man = player(200, 410, 64,64)
-    goblin = enemy(100, 410, 64, 64, 450)
-    goblin2= enemy(100, 410, 64, 64, 450)
-    goblin3 = enemy(100, 410, 64, 64, 450)
-    goblin3= enemy(100, 410, 64, 64, 450)
-    goblin4 = enemy(100, 410, 64, 64, 450)
-    goblin5 = enemy(100, 410, 64, 64, 450)
 
-    goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
-    shootLoop = 0
-    goblinLoop = 0 
-    goblins =[]
-    bullets = []
-    run = True
-    while run:
-        clock.tick(27)
-
-        for goblin in goblins:
-            if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
-                if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
-                    man.hit()
-
-        #creating the Goblin
-        if goblinLoop > 0:
-            goblinLoop += 1
-        if goblinLoop > 30:
-            goblinLoop = 0
-
-
-        #creating the gun
-        if shootLoop > 0:
-            shootLoop += 1
-        if shootLoop > 30:
-            shootLoop = 0
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            
-        for bullet in bullets:
-            if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
-                if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
-                    # hitSound.play()
-                    goblin.hit()
-                    bullets.pop(bullets.index(bullet))
-                    
-            if bullet.x < 600 and bullet.x > -30:
-                bullet.x += bullet.vel
-            else:
-                bullets.pop(bullets.index(bullet))
-
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_g] and goblinLoop == 0:
-            if len(goblins) < 5:
-                goblins.append(enemy(goblin.x, goblin.y, goblin.width, goblin.height, goblin.end))
-            goblinLoop = 1
-
-        if keys[pygame.K_SPACE] and shootLoop == 0:
-            if man.left:
-                facing = -1
-            else:
-                facing = 1
-                
-            if len(bullets) < 5:
-                bullets.append(projectile(round(man.x + man.width //2), round(man.y + man.height//2), 6, (0,0,0), facing))
-
-            shootLoop = 1
-
-
-        if keys[pygame.K_LEFT] and man.x > man.vel:
-            man.x -= man.vel
-            man.left = True
-            man.right = False
-            man.standing = False
-        elif keys[pygame.K_RIGHT] and man.x < 500 - man.width - man.vel:
-            man.x += man.vel
-            man.right = True
-            man.left = False
-            man.standing = False
-        else:
-            man.standing = True
-            man.walkCount = 0
-            
-        if not(man.isJump):
-            if keys[pygame.K_UP]:
-                man.isJump = True
-                man.right = False
-                man.left = False
-                man.walkCount = 0
-        else:
-            if man.jumpCount >= -10:
-                neg = 1
-                if man.jumpCount < 0:
-                    neg = -1
-                man.y -= (man.jumpCount ** 2) * 0.5 * neg
-                man.jumpCount -= 1
-            else:
-                man.isJump = False
-                man.jumpCount = 10
-
-        #winning portion of game
-
-        # if goblin.x < 150:
-        #     pointsforgoblin=True
-        # while pointsforgoblin:
-        #     print('goblin winning') 
-                
-        redrawGamescreendow()
 #sq_color=colors.get('navy')
 #Making a rand c f the square
 changeColor()
@@ -534,16 +563,20 @@ while check:
         # print(mouse_pos)
     keys=pygame.key.get_pressed() #this returns a list
     if MAIN:
+        LEV_II=False
+        LEV_III=False
+        LEV_I=False
+
         screen.fill(background)
         TitleMenu("MENU")
         MainMenu(MenuList)
-        print('main') 
+        # print('main') 
     if INST and first:
         screen.fill(background)
         TitleMenu("INSTRUCTIONS")
         instr()
         first=False
-        print('instructions')
+        # print('instructions')
         if keys[pygame.K_ESCAPE]:
             INST=False
             MAIN=True
@@ -568,10 +601,10 @@ while check:
             MAIN=True
             f_SEET=True
     if LEV_I: 
+
+        screen = pygame.display.set_mode((WIDTH,HEIGHT))
         #Here i want the health to only be 3 
-        if keys[pygame.K_ESCAPE]:
-            LEV_I=False
-            MAIN=True
+
         screen.fill(background)
         man = player(200, 410, 64,64)
         goblin = enemy(100, 410, 64, 64, WIDTH-64)
@@ -586,14 +619,21 @@ while check:
         goblinLoop = 0 
         goblins =[]
         bullets = []
-        run = True
-        while run:
+        if len(goblins) == 0:
+            checkgoblins=True
+        run1 = True
+        while run1:
             clock.tick(27)
-
+            for event1 in pygame.event.get():
+                if event1.type == pygame.QUIT:
+                    run1 = False
+                    print("quit level one") 
             for goblin in goblins:
                 if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
                     if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
                         man.hit()
+                        score=score//2
+                        print(score)
 
             #creating the Goblin
             if goblinLoop > 0:
@@ -608,15 +648,15 @@ while check:
             if shootLoop > 30:
                 shootLoop = 0
             
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+
                 
             for bullet in bullets:
                 if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
                     if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
                         # hitSound.play()
                         goblin.hit()
+                        score = score +1
+                        print(score) 
                         bullets.pop(bullets.index(bullet))
                         
                 if bullet.x < 600 and bullet.x > -30:
@@ -625,8 +665,12 @@ while check:
                     bullets.pop(bullets.index(bullet))
 
             keys = pygame.key.get_pressed()
-
-            if keys[pygame.K_g] and goblinLoop == 0:
+            if keys[pygame.K_ESCAPE]:
+                run1=False
+                print('escape')
+                LEV_I=False
+                MAIN=True
+            if goblinspawn==2 and goblinLoop == 0:
                 if len(goblins) < 5:
                     goblins.append(enemy(goblin.x, goblin.y, goblin.width, goblin.height, goblin.end))
                 goblinLoop = 1
@@ -682,6 +726,7 @@ while check:
             #     print('goblin winning') 
             # 
             #    
+            goblinspawn=random.randint(1,50)
             redrawGamescreendow()
 
 
@@ -690,23 +735,322 @@ while check:
         xm=0
         ym=0
     if LEV_II:
+        bg=pygame.image.load('FINAL_GAMe\Pictures for Final Game\istockphoto-1308121289-170667a.jpg')
+        BackGround =pygame.transform.scale(bg, (WIDTH,HEIGHT)) 
+        screen = pygame.display.set_mode((WIDTH,HEIGHT))
+        # screen.fill(background)
+        # TitleMenu("LEVEL II")
+
+        #Here i want the health to only be 3 
+        # if keys[pygame.K_ESCAPE]:
+        #     LEV_I=False
+        #     MAIN=True
+        # if keys[pygame.K_ESCAPE]:
+        #     LEV_III=False
+        #     MAIN=True
         screen.fill(background)
-        TitleMenu("LEVEL II")
-        if keys[pygame.K_ESCAPE]:
-            LEV_II=False
-            MAIN=True
+        man = player(200, 410, 64,64)
+        goblin = enemylvltwo(100, 410, 64, 64, WIDTH-64)
+        goblin2= enemy(100, 410, 64, 64, 450)
+        goblin3 = enemy(100, 410, 64, 64, 450)
+        goblin3= enemy(100, 410, 64, 64, 450)
+        goblin4 = enemy(100, 410, 64, 64, 450)
+        goblin5 = enemy(100, 410, 64, 64, 450)
+
+        goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
+        shootLoop = 0
+        goblinLoop = 0 
+        goblins =[]
+        bullets = []
+        run2 = True
+        while run2:
+            bg=pygame.image.load('FINAL_GAMe\Pictures for Final Game\istockphoto-1308121289-170667a.jpg')
+            BackGround =pygame.transform.scale(bg, (WIDTH,HEIGHT)) 
+            
+            clock.tick(27)
+            
+            for event2 in pygame.event.get():
+                if event2.type == pygame.QUIT:
+                    run2 = False
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_ESCAPE]:
+                run2=False
+                print('escape')
+                LEV_II=False
+                MAIN=True
+            for goblin in goblins:
+                if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
+                    if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
+                        man.hit()
+                        score=score//3
+                        print(score)
+
+            #creating the Goblin
+            if goblinLoop > 0:
+                goblinLoop += 1
+            if goblinLoop > 30:
+                goblinLoop = 0
+
+
+            #creating the gun
+            if shootLoop > 0:
+                shootLoop += 1
+            if shootLoop > 30:
+                shootLoop = 0
+
+            
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         run = False
+            # if keys[pygame.K_ESCAPE]:
+            #     LEV_II=False
+            #     MAIN=True
+            for bullet in bullets:
+                if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
+                    if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
+                        # hitSound.play()
+                        goblin.hit()
+                        bullets.pop(bullets.index(bullet))
+                        
+                if bullet.x < 600 and bullet.x > -30:
+                    bullet.x += bullet.vel
+                else:
+                    bullets.pop(bullets.index(bullet))
+
+
+
+            if goblinspawn == 2 and goblinLoop == 0:
+                if len(goblins) < 5:
+                    goblins.append(enemy(goblin.x, goblin.y, goblin.width, goblin.height, goblin.end))
+                goblinLoop = 1
+
+            if keys[pygame.K_SPACE] and shootLoop == 0:
+                if man.left:
+                    facing = -1
+                else:
+                    facing = 1
+                    
+                if len(bullets) < 5:
+                    bullets.append(projectile(round(man.x + man.width //2), round(man.y + man.height//2), 6, (0,0,0), facing))
+
+                shootLoop = 1
+            if keys[pygame.K_LEFT] and man.x > man.vel:
+                man.x -= man.vel
+                man.left = True
+                man.right = False
+                man.standing = False
+            elif keys[pygame.K_RIGHT] and man.x < 500 - man.width - man.vel:
+                man.x += man.vel
+                man.right = True
+                man.left = False
+                man.standing = False
+            else:
+                man.standing = True
+                man.walkCount = 0
+                
+            if not(man.isJump):
+                if keys[pygame.K_UP]:
+                    man.isJump = True
+                    man.right = False
+                    man.left = False
+                    man.walkCount = 0
+            else:
+                if man.jumpCount >= -10:
+                    neg = 1
+                    if man.jumpCount < 0:
+                        neg = -1
+                    man.y -= (man.jumpCount ** 2) * 0.5 * neg
+                    man.jumpCount -= 1
+                else:
+                    man.isJump = False
+                    man.jumpCount = 10
+
+            #winning portion of game
+
+            # if goblin.x < 150:
+            #     pointsforgoblin=True
+            # while pointsforgoblin:
+            #     print('goblin winning') 
+            # 
+            #   
+            goblinspawn=random.randint(1,50) 
+            redrawGamescreendow()
+        LEV_II=False
+        MAIN=True
+    
     if LEV_III:
+
+        screen = pygame.display.set_mode((WIDTH,HEIGHT))
+        # screen.fill(background)
+        # TitleMenu("LEVEL III")
+
+        #Here i want the health to only be 3 
+        # if keys[pygame.K_ESCAPE]:
+        #     LEV_I=False
+        #     MAIN=True
+        # if keys[pygame.K_ESCAPE]:
+        #     LEV_II=False
+        #     MAIN=True
         screen.fill(background)
-        TitleMenu("LEVEL III")
-        if keys[pygame.K_ESCAPE]:
-            LEV_III=False
-            MAIN=True
+        man = player(200, 410, 64,64)
+        goblin = enemylvlthree(100, 410, 64, 64, WIDTH-64)
+        goblin2= enemy(100, 410, 64, 64, 450)
+        goblin3 = enemy(100, 410, 64, 64, 450)
+        goblin3= enemy(100, 410, 64, 64, 450)
+        goblin4 = enemy(100, 410, 64, 64, 450)
+        goblin5 = enemy(100, 410, 64, 64, 450)
+
+        goblinlist = (goblin, goblin2, goblin3, goblin4, goblin5)
+        shootLoop = 0
+        goblinLoop = 0 
+        goblins =[]
+        bullets = []
+        run3 = True
+        while run3:
+            bg=pygame.image.load('FINAL_GAMe\Pictures for Final Game\More-dungeon-background-variations-Crimson-Court-add-on-at-.png')
+            BackGround =pygame.transform.scale(bg, (WIDTH,HEIGHT)) 
+            clock.tick(27)
+
+            for goblin in goblins:
+                if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
+                    if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
+                        man.hit()
+                        score=score//2
+
+            #creating the Goblin
+            if goblinLoop > 0:
+                goblinLoop += 1
+            if goblinLoop > 30:
+                goblinLoop = 0
+
+
+            #creating the gun
+            if shootLoop > 0:
+                shootLoop += 1
+            if shootLoop > 30:
+                shootLoop = 0
+            
+            for event3 in pygame.event.get():
+                if event3.type == pygame.QUIT:
+                    run = False
+                
+            for bullet in bullets:
+                if bullet.y - bullet.radius < goblin.hitbox[1] + goblin.hitbox[3] and bullet.y + bullet.radius > goblin.hitbox[1]:
+                    if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - bullet.radius < goblin.hitbox[0] + goblin.hitbox[2]:
+                        # hitSound.play()
+                        goblin.hit()
+                        score=score//3
+                        print(score)
+                        bullets.pop(bullets.index(bullet))
+                        
+                if bullet.x < 600 and bullet.x > -30:
+                    bullet.x += bullet.vel
+                else:
+                    bullets.pop(bullets.index(bullet))
+
+            keys = pygame.key.get_pressed()
+
+            for event3 in pygame.event.get():
+                if event3.type == pygame.QUIT:
+                    run3 = False
+            if keys[pygame.K_ESCAPE]:
+                run3=False
+                LEV_III=False
+                MAIN=True
+
+            if goblinspawn == 2 and goblinLoop == 0:
+                if len(goblins) < 5:
+                    goblins.append(enemy(goblin.x, goblin.y, goblin.width, goblin.height, goblin.end))
+                goblinLoop = 1
+
+            if keys[pygame.K_SPACE] and len(goblins) > 0 and shootLoop == 0:
+                if man.left:
+                    facing = -1
+                else:
+                    facing = 1
+                    
+                if len(bullets) < 5:
+                    bullets.append(projectile(round(man.x + man.width //2), round(man.y + man.height//2), 6, (0,0,0), facing))
+
+                shootLoop = 1
+
+
+            if keys[pygame.K_LEFT] and man.x > man.vel:
+                man.x -= man.vel
+                man.left = True
+                man.right = False
+                man.standing = False
+            elif keys[pygame.K_RIGHT] and man.x < 500 - man.width - man.vel:
+                man.x += man.vel
+                man.right = True
+                man.left = False
+                man.standing = False
+            else:
+                man.standing = True
+                man.walkCount = 0
+                
+            if not(man.isJump):
+                if keys[pygame.K_UP]:
+                    man.isJump = True
+                    man.right = False
+                    man.left = False
+                    man.walkCount = 0
+            else:
+                if man.jumpCount >= -10:
+                    neg = 1
+                    if man.jumpCount < 0:
+                        neg = -1
+                    man.y -= (man.jumpCount ** 2) * 0.5 * neg
+                    man.jumpCount -= 1
+                else:
+                    man.isJump = False
+                    man.jumpCount = 10
+
+            #winning portion of game
+
+            # if goblin.x < 150:
+            #     pointsforgoblin=True
+            # while pointsforgoblin:
+            #     print('goblin winning') 
+            # 
+            #    
+            goblinspawn=random.randint(1,50)
+            redrawGamescreendow()
+        LEV_III=False
+        MAIN=True
     if SCORE and screCk:
         screen.fill(background)
         TitleMenu("SCOREBOARD")
         keepScore(score)
-        text=MENU_FNT.render(str(score), 1, (0,255,0)) 
-        screen.blit(text,(20,130-30)) 
+        texty=250
+        myFile=open('FINAL_GAMe\sce.txt', 'r')
+        yi=150
+        stuff= myFile.readlines()
+        for i in range(len(stuff)):
+            newscoreline=MENU_FNT.render(stuff[i],1,'green')
+            textx=WIDTH/2-newscoreline.get_width()/2
+            screen.blit(newscoreline,(textx,texty))
+            texty+=50
+        pygame.display.update()
+        # myFile.close()
+        # stuff.sort()
+        # N=len(stuff)-1
+        # temp=[]
+        # j=0
+        # for i in range(N, -1, -1):
+        #     print(i,stuff[i])
+        #     temp[j]=stuff[i]
+        #     j +=1
+        #     print(temp)
+        #     for i in range(N):
+        #         text=INST_FNT.render(temp[i], 1, BLACK)
+        #         screen.blit(text, (40,yi))
+        #         yi+=50
+        #         pygame.display.update()
+        #         pygame.time.delay(50)
+        
+        # text=MENU_FNT.render(str(score)+str(name), 1, (0,255,0)) 
+        # screen.blit(text,(20,260+120+10))
         # scoreBoard()
         #call funct t print scres
         screCk=False
@@ -747,15 +1091,18 @@ while check:
         changeScreenSize(xm,ym)
         screen.fill(background)
         TitleMenu("Screen Size")
-        MainMenu(sizeList )
+        MainMenu(sizeList)
         if keys[pygame.K_ESCAPE]:
             sc_size=False
             set_first=True
-    if ((xm >20 and xm <80) and (ym >300 and ym <330)) and SETT and c_first:
+    c_first = True
+    if ((xm >80 and xm <140) and (ym >300 and ym <330)) and SETT:
         screen.fill(background)
         TitleMenu("Background Color")
-        ChangeSquareColor(xm,ym)
+        ChangeSquareColor()
         MainMenu(squarecolors)
+        screen.fill(background)
+        pygame.display.update()
         c_first=False
         print('backgournd color')
         if keys[pygame.K_ESCAPE]:
@@ -777,7 +1124,9 @@ while check:
         SCORE=False 
         pygame.time.delay(3000)
         check=False
+    goblinspawn=random.randint(1,100)
     pygame.display.update()
     pygame.time.delay(10)
 os.system('cls')
 pygame.quit()
+# https://docs.google.com/document/d/1MPhCOEWBFAyCdFYwEDHCUhnFk4VMdPeV-9zjy3ZTBW0/edit#heading=h.cpnqkbkruujo 
