@@ -915,7 +915,7 @@ while check:
                 if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
                     if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
                         man.hit()
-                        score=score//2
+                        score=score//4
 
             #creating the Goblin
             if goblinLoop > 0:
