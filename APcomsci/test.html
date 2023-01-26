@@ -1,0 +1,91 @@
+<html>
+     <head>
+        <script src ="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            function getData(){
+                const fetchPromise = fetch('https://raw.githubusercontent.com/meagherj/json_names/main/names.json');
+
+                //myChart = Chart.getChart("myChart");
+                //if (myChart != null){
+                    //myChart.destroy();
+                //}
+
+                output = [];
+                name = document.getElementById("name").value;
+                fetchPromise
+                    .then((response)=> {
+                        if (!response.ok){
+                            throw new Error(`HTTP error: S{response.status}`); 
+                        }
+                        return response.json(); 
+                    }) 
+                    
+                    .then ((data) => { 
+                        const labels = [];
+                        const years=['2017','2018','2019','2020','2021'];
+                    try{
+                        for (const yr of years){
+                            labels.push(yr)
+                            output.push(data[name][yr]);
+                            
+                        }
+                        document.getElementById("out").innerHTML = "numbers:"+output;
+
+                    }catch(error){
+                        throw new Error("cannot find '"+name+"' inthe database");
+                    }
+
+                    const chartdata = {
+                        labels: years,
+                        dataset: [{
+                            labels: name,
+                            backgroundColor: 'rgb(255,99,132)',
+                            borderColor: 'rgb(255,99,132)',
+                            data: output,
+                    }]
+                    };
+                    console.log(output)
+                    console.log(chartdata);
+                    const config = {
+                        type: 'line',
+                        data: chartdata,
+                        options: {}
+                    };
+
+                    myChart= new Chart(
+                    document.getElementById('myChart'),
+                    config
+                    );
+                })
+
+                .catch((error)=> {
+                    console.error(`${error}`);
+                    document.getElementById("out").innerHTML = `${error}`;
+                })
+                document.getElementById("name").value = "";
+            }
+            
+        </script>
+    </head> 
+    <body>
+        <img src="https://img.freepik.com/free-vector/banner-with-diverse-happy-people-group-standing-together-white_90220-141.jpg?size=626&ext=jpg">
+    <div>
+        <form action = "javascript:getData();">
+            <input type="text" id="name"/>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div id="out">
+    
+    </div>
+    <div>
+        <canvas id="myChart"></canvas> 
+    </div>
+    </body>
+</html>
+
+
+
+
+
+

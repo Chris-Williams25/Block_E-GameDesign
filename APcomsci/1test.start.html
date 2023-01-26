@@ -1,0 +1,27 @@
+<html>
+     <head>
+        <script
+            function getData(){
+                    name = document.getElementById("name").value;
+                    console.error(name);
+                    document.getElementById("out").innerHTML = name;
+                    document.getElementById("name").value="";
+            }   
+        </script>
+    </head> 
+    <body>
+        <img src="https://img.freepik.com/free-vector/banner-with-diverse-happy-people-group-standing-together-white_90220-141.jpg?size=626&ext=jpg"
+    <div>
+        <form action = "javascript:getData();">
+            <input type="text" id="name"/>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div id="out">
+    
+    </div>
+    <div>
+        <canvas id="myChart"></canvas> 
+    </div>
+    </body>
+</html>
