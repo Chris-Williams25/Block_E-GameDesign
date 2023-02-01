@@ -50,10 +50,11 @@ def shuffling():
         else:
            player2.append(deck[l])
 shuffling()
+halfDeck=int((len(deck)/2))
 print(player1)
 print(player2)
 Gameon=True
 while Gameon:
-    
-    print("Player 1     Player 2")
-    print("     "+str(player1[i])+"      "+str(player2[i]))
+    for i in range(0,halfDeck):
+        print("Player 1     Player 2")
+        print("     "+str(player1[i])+"      "+str(player2[i]))
