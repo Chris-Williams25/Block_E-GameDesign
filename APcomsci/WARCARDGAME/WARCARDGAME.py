@@ -51,11 +51,12 @@ tempplyr2=[]
 # #now let's shuffle our deck!
 # #Shuffle the deck cards
 def TheDeck():
-    royals=['K','K','K','K','Q','Q','Q','Q','J','J','J','J','A','A','A','A']
-    heartsuits=['♥2','♥3','♥4','♥5','♥6','♥7','♥8','♥9','♥10'] 
-    spadesuits=['♠2','♠3','♠4','♠5','♠6','♠7','♠8','♠9','♠10']
-    diamondsuits=['♦2','♦3','♦4','♦5','♦6','♦7','♦8','♦9','♦10']
-    clubssuits=['♣2','♣3','♣4','♣5','♣6','♣7','♣8','♣9','♣10']
+    global deck
+    royals=['K':12,'K':12,'K':12,'K':12,'Q':11,'Q':11,'Q':11,'Q':11,'J':14,'J':14,'J':14,'J':14,'A':13,'A':13,'A':13,'A':13]
+    heartsuits=['♥2':2,'♥3':3,'♥4','♥5','♥6','♥7','♥8','♥9','♥10'] 
+    spadesuits=['♠2':2,'♠3','♠4','♠5','♠6','♠7','♠8','♠9','♠10']
+    diamondsuits=['♦2':2,'♦3','♦4','♦5','♦6','♦7','♦8','♦9','♦10']
+    clubssuits=['♣2':2,'♣3','♣4','♣5','♣6','♣7','♣8','♣9','♣10']
     deck=[]
     # Cards.extend(royals and heartsuits and spadesuits and diamondsuits and clubssuits) #This way does not work
     deck.extend(heartsuits)
@@ -66,19 +67,30 @@ def TheDeck():
     size=len(deck)
     print(deck)
     print("There is", +size, "cards in this deck.")
+
 def shuffling():
     global player1
     global player2
+
     random.shuffle(deck)
     player1=[]
     player2=[]
     # you could print it again here just to see how it shuffle
     #loop to devide the cards to each player
-    for l in range(52):
-        if l%2==0:
-            player1.append(deck[l])
-        else:
-           player2.append(deck[l])
+
+    for i in range(0,26,1):
+        player1.append(deck[i])
+    for i in range(27,52,1):
+        player2.append(deck[i])
+    print(player1)
+    print('and')
+    print(player2)
+
+    # for l in range(52):
+    #     if l%2==0:
+    #         player1.append(deck[l])
+    #     else:
+    #        player2.append(deck[l])
 def splittingthedeck():
     global halfDeck
     global plyr1
@@ -93,11 +105,11 @@ Gameon=True
 TheDeck()
 shuffling()
 splittingthedeck()
-print(halfDeck)
+# print(halfDeck)
+######################################################
 while(Gameon):
     #ask user to hit a key to release cards
-    
-    for i in range (0,halfDeck):
+    for i in range (0,halfDeck): #jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj I CHANGED THIS FROM "HALFDECK TO 52"
         print("player one has", len(player1), "cards in their deck, player two has", len(player2), "cards in thier deck")
         click=input("Press any key to get cards: ")
 
@@ -106,20 +118,20 @@ while(Gameon):
 
         print(player2)
 
-        if player1[i]>player2[i]:
+        if int(player1[i])>int(player2[i]):
             tempplyr1.append(player1[i])
             tempplyr1.append(player2[i]) 
             # player1.pop(i)
             player1.append(i)
             player2.pop(i)
-        elif player1[i]<player2[i]: 
+        elif int(player1[i])<int(player2[i]): 
             tempplyr2.append(player1[i])
             tempplyr2.append(player2[i])  
             player1.pop(i)
             player2.append(i)
             # player2.pop(i)
     # print("player one has", len(tempplyr1), "cards in thier deck, player two has", len(tempplyr2), "cards in thier deck")
-    print("Round ended")
+        print("Round ended")
         # print("Player I: "+str(plyr1)+"     Player II: "+ str(plyr2)
     if (len(tempplyr1))==1:
         Gameon=False
@@ -155,4 +167,5 @@ while(Gameon):
     #     player1.extend(tempplyr1) 
     #     player2.extend(tempplyr2)
 print('game over')
+#########################################################
 
